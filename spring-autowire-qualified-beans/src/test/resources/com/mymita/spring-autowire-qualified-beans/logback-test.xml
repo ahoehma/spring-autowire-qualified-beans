@@ -9,6 +9,8 @@
       <level>debug</level>
     </filter>
   </appender>
+  <logger name="org.springframework" level="warn" />
+  <logger name="org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader" level="debug" />
   <logger name="com.mymita.spring" level="debug" />
   <root level="warn">
     <appender-ref ref="appender-console" />

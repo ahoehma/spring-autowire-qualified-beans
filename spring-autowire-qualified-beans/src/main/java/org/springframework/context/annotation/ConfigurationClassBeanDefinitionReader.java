@@ -59,6 +59,7 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.MethodMetadata;
 import org.springframework.core.type.StandardMethodMetadata;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -163,10 +164,29 @@ class ConfigurationClassBeanDefinitionReader {
     this.importBeanNameGenerator = importBeanNameGenerator;
   }
 
-  static Map<Class<? extends Annotation>,AnnotationAttributes> qualifierAttributesFor(final StandardMethodMetadata metadata) {
+  static Map<Class<? extends Annotation>,AnnotationAttributes> qualifierAttributesFor(final MethodMetadata metadata) {
+    if (metadata instanceof StandardMethodMetadata) {
+      return qualifierFor(metadata, ((StandardMethodMetadata)metadata).getIntrospectedMethod());
+    } else {
+      if (logger.isDebugEnabled()) {
+        logger.debug(String
+            .format("Found unsupported method meta data %s for method %s.%s", metadata.getClass(), metadata.getDeclaringClassName(),metadata.getMethodName()));
+      }
+      try {
+        return qualifierFor(metadata, ReflectionUtils.findMethod(Class.forName(metadata.getDeclaringClassName()), metadata.getMethodName(), null));
+      } catch (final ClassNotFoundException e) {
+        logger.warn(String
+            .format("Found unsupported method meta data %s for method %s.%s", metadata.getClass(), metadata.getDeclaringClassName(),metadata.getMethodName()));
+      }
+    }
+    return new HashMap<Class<? extends Annotation>, AnnotationAttributes>();
+  }
+
+  private static Map<Class<? extends Annotation>, AnnotationAttributes> qualifierFor(final MethodMetadata metadata,
+      final Method introspectedMethod) {
     final Map<Class<? extends Annotation>,AnnotationAttributes> result = new HashMap<Class<? extends Annotation>, AnnotationAttributes>();
     final String annotationType = Qualifier.class.getName();
-    for (final Annotation ann : metadata.getIntrospectedMethod().getAnnotations()) {
+    for (final Annotation ann : introspectedMethod.getAnnotations()) {
       if (ann.annotationType().getName().equals(annotationType)) {
         // @Qualifier directly added to bean method
         final Class<? extends Annotation> qualifierClass = ann.annotationType();
@@ -310,7 +330,7 @@ class ConfigurationClassBeanDefinitionReader {
       }
     }
 
-    for (final Entry<Class<? extends Annotation>, AnnotationAttributes> qualifierAnnotation : qualifierAttributesFor((StandardMethodMetadata) metadata).entrySet()) {
+    for (final Entry<Class<? extends Annotation>, AnnotationAttributes> qualifierAnnotation : qualifierAttributesFor(metadata).entrySet()) {
       final AutowireCandidateQualifier qualifier = new AutowireCandidateQualifier(qualifierAnnotation.getKey());
       for (final Entry<String, Object> entry : qualifierAnnotation.getValue().entrySet()) {
         final String attributeName = entry.getKey();

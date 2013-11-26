@@ -6,29 +6,39 @@
       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
   <bean name="service1" class="com.mymita.spring.FoobarImpl">
-    <property name="name" value="1"/>
+    <property name="name" value="1" />
   </bean>
   <bean name="service2" class="com.mymita.spring.FoobarImpl">
-    <meta key="value" value="FOO" />
-    <property name="name" value="2"/>
+    <qualifier type="com.mymita.spring.FoobarContext">
+      <attribute key="value" value="FOO" />
+    </qualifier>
+    <property name="name" value="2" />
   </bean>
   <bean name="service3" class="com.mymita.spring.FoobarImpl" scope="foobarScope">
-    <meta key="value" value="FOO" />
-    <property name="name" value="3"/>
+    <qualifier type="com.mymita.spring.FoobarContext">
+      <attribute key="value" value="FOO" />
+    </qualifier>
+    <property name="name" value="3" />
   </bean>
   <bean name="service4" class="com.mymita.spring.FoobarImpl" scope="foobarScope">
-    <aop:scoped-proxy proxy-target-class="false"/>
-    <meta key="value" value="FOO" />
-    <property name="name" value="4"/>
+    <aop:scoped-proxy proxy-target-class="false" />
+    <qualifier type="com.mymita.spring.FoobarContext">
+      <attribute key="value" value="FOO" />
+    </qualifier>
+    <property name="name" value="4" />
   </bean>
   <bean name="service5" class="com.mymita.spring.FoobarImpl" scope="foobarScope">
-    <aop:scoped-proxy proxy-target-class="true"/>
-    <meta key="value" value="FOO" />
-    <property name="name" value="5"/>
+    <aop:scoped-proxy proxy-target-class="true" />
+    <qualifier type="com.mymita.spring.FoobarContext">
+      <attribute key="value" value="FOO" />
+    </qualifier>
+    <property name="name" value="5" />
   </bean>
   <bean name="service6" class="com.mymita.spring.FoobarImpl">
-    <meta key="value" value="BAR" />
-    <property name="name" value="6"/>
+    <qualifier type="com.mymita.spring.FoobarContext">
+      <attribute key="value" value="BAR" />
+    </qualifier>
+    <property name="name" value="6" />
   </bean>
 
 </beans>

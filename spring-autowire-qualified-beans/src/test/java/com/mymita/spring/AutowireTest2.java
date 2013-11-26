@@ -19,7 +19,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.google.common.collect.ImmutableList;
 import com.mymita.spring.FoobarContext.ContextType;
 
 /**
@@ -34,7 +33,7 @@ public class AutowireTest2 extends AbstractTestNGSpringContextTests {
   @Configuration
   @EnableSpringConfigured
   @ImportResource(value = {
-    "/com/mymita/spring-autowire-qualified-beans/beans.xml"
+    "/com/mymita/spring-autowire-qualified-beans/services.xml"
   })
   static class TestConfiguration {
 
@@ -51,37 +50,21 @@ public class AutowireTest2 extends AbstractTestNGSpringContextTests {
     @Qualifier("consumer1")
     FoobarServiceConsumer consumer1(final List<FoobarService> services) {
       LOGGER.debug("Create consumer with services '{}'", services);
-      return new FoobarServiceConsumer() {
-
-        @Override
-        public List<FoobarService> getServices() {
-          return ImmutableList.copyOf(services);
-        }
-      };
+      return new FoobarServiceConsumerImpl(services);
     }
 
     @Bean
     @Qualifier("consumer2")
     FoobarServiceConsumer consumer2(@FoobarContext final List<FoobarService> services) {
       LOGGER.debug("Create consumer with services '{}'", services);
-      return new FoobarServiceConsumer() {
-        @Override
-        public List<FoobarService> getServices() {
-          return ImmutableList.copyOf(services);
-        }
-      };
+      return new FoobarServiceConsumerImpl(services);
     }
 
     @Bean
     @Qualifier("consumer3")
     FoobarServiceConsumer consumer3(@FoobarContext(ContextType.BAR) final List<FoobarService> services) {
       LOGGER.debug("Create consumer with services '{}'", services);
-      return new FoobarServiceConsumer() {
-        @Override
-        public List<FoobarService> getServices() {
-          return ImmutableList.copyOf(services);
-        }
-      };
+      return new FoobarServiceConsumerImpl(services);
     }
   }
 

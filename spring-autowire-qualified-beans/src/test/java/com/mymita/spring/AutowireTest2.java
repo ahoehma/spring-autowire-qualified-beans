@@ -22,6 +22,8 @@ import org.testng.annotations.Test;
 import com.mymita.spring.FoobarContext.ContextType;
 
 /**
+ * This works. The qualified beans are created via xml.
+ * 
  * https://jira.springsource.org/browse/SPR-11116
  * http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/beans.html#beans-annotation-config
  */
@@ -92,6 +94,7 @@ public class AutowireTest2 extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testAutowiredQualifiedBeansFoo() {
+    // expected 4 bean with qualifier @FoobarContext(ContextType.FOO)
     Assert.assertEquals(consumer2.getServices().size(), 4);
   }
 }

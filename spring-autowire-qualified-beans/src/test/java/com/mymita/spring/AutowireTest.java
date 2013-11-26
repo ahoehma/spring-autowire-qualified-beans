@@ -24,6 +24,8 @@ import com.google.common.collect.ImmutableList;
 import com.mymita.spring.FoobarContext.ContextType;
 
 /**
+ * This doesn't work. The qualified beans are created via java configuration.
+ * 
  * https://jira.springsource.org/browse/SPR-11116
  * http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/beans.html#beans-annotation-config
  */
@@ -145,6 +147,8 @@ public class AutowireTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testAutowiredQualifiedBeansFoo() {
+    // expected 4 bean with qualifier @FoobarContext(ContextType.FOO)
+    // but only 2 are autowired because 2 of them are proxies (doesn't matter if jdk or cglib proxies)
     Assert.assertEquals(consumer2.getServices().size(), 4);
   }
 }

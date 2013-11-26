@@ -1,4 +1,4 @@
-package com.mymita.spring;
+package com.mymita.spring.test1;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,28 +13,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.context.support.SimpleThreadScope;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.mymita.spring.FoobarContext;
 import com.mymita.spring.FoobarContext.ContextType;
+import com.mymita.spring.FoobarImpl;
+import com.mymita.spring.FoobarService;
+import com.mymita.spring.FoobarServiceConsumer;
+import com.mymita.spring.FoobarServiceConsumerImpl;
 
 /**
  * This doesn't work. The qualified beans are created via java configuration.
- * 
+ *
  * https://jira.springsource.org/browse/SPR-11116
  * http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/beans.html#beans-annotation-config
  */
 @ContextConfiguration(classes = {
-  AutowireTest.TestConfiguration.class
+  AutowireTest1.TestConfiguration.class
 })
-public class AutowireTest extends AbstractTestNGSpringContextTests {
+public class AutowireTest1 extends AbstractTestNGSpringContextTests {
 
   @Configuration
-  @EnableSpringConfigured
   static class TestConfiguration {
 
     @Bean
@@ -116,7 +119,7 @@ public class AutowireTest extends AbstractTestNGSpringContextTests {
   @Qualifier("consumer3")
   transient FoobarServiceConsumer consumer3;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(AutowireTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AutowireTest1.class);
 
   @Test
   public void testAutowiredBeans() {

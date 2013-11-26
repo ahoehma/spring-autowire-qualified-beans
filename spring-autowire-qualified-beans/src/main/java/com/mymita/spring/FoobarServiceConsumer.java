@@ -2,6 +2,6 @@ package com.mymita.spring;
 
 import java.util.List;
 
-interface FoobarServiceConsumer {
+public interface FoobarServiceConsumer {
   List<FoobarService> getServices();
 }

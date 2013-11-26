@@ -10,6 +10,6 @@ public class FoobarImpl implements FoobarService {
   }
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this);
+    return "Service "+name;
   }
 }

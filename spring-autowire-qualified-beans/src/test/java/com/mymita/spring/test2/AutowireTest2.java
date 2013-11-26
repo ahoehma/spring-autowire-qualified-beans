@@ -1,4 +1,4 @@
-package com.mymita.spring;
+package com.mymita.spring.test2;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,18 +12,21 @@ import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.context.support.SimpleThreadScope;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.mymita.spring.FoobarContext;
 import com.mymita.spring.FoobarContext.ContextType;
+import com.mymita.spring.FoobarService;
+import com.mymita.spring.FoobarServiceConsumer;
+import com.mymita.spring.FoobarServiceConsumerImpl;
 
 /**
- * This works. The qualified beans are created via xml.
- * 
+ * Test {@link #testAutowiredQualifiedBeansFoo()} works only with fixed <code>ConfigurationClassBeanDefinitionReader</code>.
+ *
  * https://jira.springsource.org/browse/SPR-11116
  * http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/beans.html#beans-annotation-config
  */
@@ -33,7 +36,6 @@ import com.mymita.spring.FoobarContext.ContextType;
 public class AutowireTest2 extends AbstractTestNGSpringContextTests {
 
   @Configuration
-  @EnableSpringConfigured
   @ImportResource(value = {
     "/com/mymita/spring-autowire-qualified-beans/services.xml"
   })

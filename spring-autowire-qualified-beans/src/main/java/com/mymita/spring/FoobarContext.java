@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Custom annotation to qualify beans (creation time and autowire time).
  */
 @Target({
+	ElementType.TYPE,
     ElementType.METHOD,
     ElementType.FIELD,
     ElementType.PARAMETER

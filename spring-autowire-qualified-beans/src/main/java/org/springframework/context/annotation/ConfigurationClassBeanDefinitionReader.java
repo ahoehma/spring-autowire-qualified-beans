@@ -173,10 +173,11 @@ class ConfigurationClassBeanDefinitionReader {
             .format("Found unsupported method meta data %s for method %s.%s", metadata.getClass(), metadata.getDeclaringClassName(),metadata.getMethodName()));
       }
       try {
+    	// TODO find better way to load the specified @Bean method (ignore parameter etc.)
         return qualifierFor(metadata, ReflectionUtils.findMethod(Class.forName(metadata.getDeclaringClassName()), metadata.getMethodName(), null));
       } catch (final ClassNotFoundException e) {
         logger.warn(String
-            .format("Found unsupported method meta data %s for method %s.%s", metadata.getClass(), metadata.getDeclaringClassName(),metadata.getMethodName()));
+            .format("Cant scan method meta data %s for method %s.%s", metadata.getClass(), metadata.getDeclaringClassName(),metadata.getMethodName()), e);
       }
     }
     return new HashMap<Class<? extends Annotation>, AnnotationAttributes>();

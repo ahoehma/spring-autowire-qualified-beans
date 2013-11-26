@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+  <bean name="service1" class="com.mymita.spring.FoobarImpl">
+    <property name="name" value="1"/>
+  </bean>
+  <bean name="service2" class="com.mymita.spring.FoobarImpl">
+    <meta key="value" value="FOO" />
+    <property name="name" value="2"/>
+  </bean>
+  <bean name="service3" class="com.mymita.spring.FoobarImpl" scope="foobarScope">
+    <meta key="value" value="FOO" />
+    <property name="name" value="3"/>
+  </bean>
+  <bean name="service4" class="com.mymita.spring.FoobarImpl" scope="foobarScope">
+    <aop:scoped-proxy proxy-target-class="false"/>
+    <meta key="value" value="FOO" />
+    <property name="name" value="4"/>
+  </bean>
+  <bean name="service5" class="com.mymita.spring.FoobarImpl" scope="foobarScope">
+    <aop:scoped-proxy proxy-target-class="true"/>
+    <meta key="value" value="FOO" />
+    <property name="name" value="5"/>
+  </bean>
+  <bean name="service6" class="com.mymita.spring.FoobarImpl">
+    <meta key="value" value="BAR" />
+    <property name="name" value="6"/>
+  </bean>
+
+</beans>
